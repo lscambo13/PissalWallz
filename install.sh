@@ -142,7 +142,7 @@ on_install() {
   ui_print " Android version is: "$RELEASE
   ui_print " Security patch version is: "$SECURITY_PATCH_VERSION
 
-  if [ $DEVICE != "sailfish" ] && [ $DEVICE != "marlin" ] && [ $DEVICE != "walleye" ] && [ $DEVICE != "taimen" ] && [ $DEVICE != "blueline" ] && [ $DEVICE != "crosshatch" ]; then
+  if [ $DEVICE != "sailfish" ] && [ $DEVICE != "marlin" ] && [ $DEVICE != "walleye" ] && [ $DEVICE != "taimen" ] && [ $DEVICE != "blueline" ] && [ $DEVICE != "crosshatch" ] && [ $DEVICE != "sargo" ] && [ $DEVICE != "bonito" ]; then
     abort "   => Device '"$DEVICE"' is not supported"
   fi
   
@@ -327,6 +327,86 @@ case $DEVICE in
   cp -af $LIB_PATH_PX2_D $MODPATH/system/app/WallpapersBReel2017/lib/arm64/libgdx.so
   cp -af $LIB_PATH_PX2_B $MODPATH/system/app/WallpapersBReel2017/lib/arm64/libwallpapers-breel-jni.so
   cp -af $APK_PATH_PX2_LW $MODPATH/system/app/WallpapersBReel2017/WallpapersBReel2017.apk
+  ;;
+  # "sargo" for Pixel 3a 9.0.0 (PQ2A.190405.003, Apr 2019)
+  sargo)
+  ui_print "- Extracting module files for '"$DEVICE"' and Android Version '"$RELEASE"'"
+  unzip -o "$ZIPFILE" $RELEASE'/sailfish/*' $RELEASE'/walleye/*' $RELEASE'/blueline/*' -d $TMPDIR
+  cat $TMPDIR/$RELEASE/sailfish/WallpapersBReel/WallpapersBReel.apk.part* > $TMPDIR/$RELEASE/sailfish/WallpapersBReel/WallpapersBReel.apk
+  rm -f $TMPDIR/$RELEASE/sailfish/WallpapersBReel/WallpapersBReel.apk.part*
+  cat $TMPDIR/$RELEASE/walleye/WallpapersBReel2017/WallpapersBReel2017.apk.part* > $TMPDIR/$RELEASE/walleye/WallpapersBReel2017/WallpapersBReel2017.apk
+  rm -f $TMPDIR/$RELEASE/walleye/WallpapersBReel2017/WallpapersBReel2017.apk.part*
+  cat $TMPDIR/$RELEASE/blueline/WallpapersBReel2018/WallpapersBReel2018.apk.part* > $TMPDIR/$RELEASE/blueline/WallpapersBReel2018/WallpapersBReel2018.apk
+  rm -f $TMPDIR/$RELEASE/blueline/WallpapersBReel2018/WallpapersBReel2018.apk.part*
+  APK_PATH_PX1_W=$TMPDIR/$RELEASE/sailfish/NexusWallpapersStubPrebuilt/NexusWallpapersStubPrebuilt.apk
+  APK_PATH_PX2_W=$TMPDIR/$RELEASE/walleye/NexusWallpapersStubPrebuilt2017/NexusWallpapersStubPrebuilt2017.apk
+  APK_PATH_PX3_W=$TMPDIR/$RELEASE/blueline/NexusWallpapersStubPrebuilt2018/NexusWallpapersStubPrebuilt2018.apk
+  LIB_PATH_PX1_D=$TMPDIR/$RELEASE/sailfish/WallpapersBReel/lib/arm64/libgdx.so
+  LIB_PATH_PX1_B=$TMPDIR/$RELEASE/sailfish/WallpapersBReel/lib/arm64/libgeswallpapers-jni.so
+  APK_PATH_PX1_LW1=$TMPDIR/$RELEASE/sailfish/WallpapersBReel/WallpapersBReel.apk
+  APK_PATH_PX1_LW2=$TMPDIR/$RELEASE/sailfish/WallpapersUsTwo/WallpapersUsTwo.apk
+  LIB_PATH_PX2_D=$TMPDIR/$RELEASE/walleye/WallpapersBReel2017/lib/arm64/libgdx.so
+  LIB_PATH_PX2_B=$TMPDIR/$RELEASE/walleye/WallpapersBReel2017/lib/arm64/libwallpapers-breel-jni.so
+  APK_PATH_PX2_LW=$TMPDIR/$RELEASE/walleye/WallpapersBReel2017/WallpapersBReel2017.apk
+  APK_PATH_PX3_LW=$TMPDIR/$RELEASE/blueline/WallpapersBReel2018/WallpapersBReel2018.apk
+  mkdir -p $MODPATH/system/app/NexusWallpapersStubPrebuilt
+  cp -af $APK_PATH_PX1_W $MODPATH/system/app/NexusWallpapersStubPrebuilt/NexusWallpapersStubPrebuilt.apk
+  mkdir -p $MODPATH/system/app/NexusWallpapersStubPrebuilt2017
+  cp -af $APK_PATH_PX2_W $MODPATH/system/app/NexusWallpapersStubPrebuilt2017/NexusWallpapersStubPrebuilt2017.apk
+  mkdir -p $MODPATH/system/app/NexusWallpapersStubPrebuilt2018
+  cp -af $APK_PATH_PX3_W $MODPATH/system/app/NexusWallpapersStubPrebuilt2018/NexusWallpapersStubPrebuilt2018.apk
+  mkdir -p $MODPATH/system/app/WallpapersBReel/lib/arm64
+  cp -af $LIB_PATH_PX1_D $MODPATH/system/app/WallpapersBReel/lib/arm64/libgdx.so
+  cp -af $LIB_PATH_PX1_B $MODPATH/system/app/WallpapersBReel/lib/arm64/libwallpapers-breel-jni.so
+  cp -af $APK_PATH_PX1_LW1 $MODPATH/system/app/WallpapersBReel/WallpapersBReel.apk
+  mkdir -p $MODPATH/system/app/WallpapersUsTwo
+  cp -af $APK_PATH_PX1_LW2 $MODPATH/system/app/WallpapersUsTwo/WallpapersUsTwo.apk
+  mkdir -p $MODPATH/system/app/WallpapersBReel2017/lib/arm64
+  cp -af $LIB_PATH_PX2_D $MODPATH/system/app/WallpapersBReel2017/lib/arm64/libgdx.so
+  cp -af $LIB_PATH_PX2_B $MODPATH/system/app/WallpapersBReel2017/lib/arm64/libwallpapers-breel-jni.so
+  cp -af $APK_PATH_PX2_LW $MODPATH/system/app/WallpapersBReel2017/WallpapersBReel2017.apk
+  mkdir -p $MODPATH/system/app/WallpapersBReel2018
+  cp -af $APK_PATH_PX3_LW $MODPATH/system/app/WallpapersBReel2018/WallpapersBReel2018.apk
+  ;;
+  # "bonito" for Pixel 3a XL 9.0.0 (PQ2A.190405.003, Apr 2019)
+  bonito)
+  ui_print "- Extracting module files for '"$DEVICE"' and Android Version '"$RELEASE"'"
+  unzip -o "$ZIPFILE" $RELEASE'/marlin/*' $RELEASE'/taimen/*' $RELEASE'/crosshatch/*' -d $TMPDIR
+  cat $TMPDIR/$RELEASE/marlin/WallpapersBReel/WallpapersBReel.apk.part* > $TMPDIR/$RELEASE/marlin/WallpapersBReel/WallpapersBReel.apk
+  rm -f $TMPDIR/$RELEASE/marlin/WallpapersBReel/WallpapersBReel.apk.part*
+  cat $TMPDIR/$RELEASE/taimen/WallpapersBReel2017/WallpapersBReel2017.apk.part* > $TMPDIR/$RELEASE/taimen/WallpapersBReel/WallpapersBReel2017.apk
+  rm -f $TMPDIR/$RELEASE/taimen/WallpapersBReel2017/WallpapersBReel2017.apk.part*
+  cat $TMPDIR/$RELEASE/crosshatch/WallpapersBReel2018/WallpapersBReel2018.apk.part* > $TMPDIR/$RELEASE/crosshatch/WallpapersBReel2018/WallpapersBReel2018.apk
+  rm -f $TMPDIR/$RELEASE/crosshatch/WallpapersBReel2018/WallpapersBReel2018.apk.part*
+  APK_PATH_PX1_W=$TMPDIR/$RELEASE/marlin/NexusWallpapersStubPrebuilt/NexusWallpapersStubPrebuilt.apk
+  APK_PATH_PX2_W=$TMPDIR/$RELEASE/taimen/NexusWallpapersStubPrebuilt2017/NexusWallpapersStubPrebuilt2017.apk
+  APK_PATH_PX3_W=$TMPDIR/$RELEASE/crosshatch/NexusWallpapersStubPrebuilt2018/NexusWallpapersStubPrebuilt2018.apk
+  LIB_PATH_PX1_D=$TMPDIR/$RELEASE/marlin/WallpapersBReel/lib/arm64/libgdx.so
+  LIB_PATH_PX1_B=$TMPDIR/$RELEASE/marlin/WallpapersBReel/lib/arm64/libgeswallpapers-jni.so
+  APK_PATH_PX1_LW1=$TMPDIR/$RELEASE/marlin/WallpapersBReel/WallpapersBReel.apk
+  APK_PATH_PX1_LW2=$TMPDIR/$RELEASE/marlin/WallpapersUsTwo/WallpapersUsTwo.apk
+  LIB_PATH_PX2_D=$TMPDIR/$RELEASE/taimen/WallpapersBReel2017/lib/arm64/libgdx.so
+  LIB_PATH_PX2_B=$TMPDIR/$RELEASE/taimen/WallpapersBReel2017/lib/arm64/libwallpapers-breel-jni.so
+  APK_PATH_PX2_LW=$TMPDIR/$RELEASE/taimen/WallpapersBReel2017/WallpapersBReel2017.apk
+  APK_PATH_PX3_LW=$TMPDIR/$RELEASE/crosshatch/WallpapersBReel2018/WallpapersBReel2018.apk
+  mkdir -p $MODPATH/system/app/NexusWallpapersStubPrebuilt
+  cp -af $APK_PATH_PX1_W $MODPATH/system/app/NexusWallpapersStubPrebuilt/NexusWallpapersStubPrebuilt.apk
+  mkdir -p $MODPATH/system/app/NexusWallpapersStubPrebuilt2017
+  cp -af $APK_PATH_PX2_W $MODPATH/system/app/NexusWallpapersStubPrebuilt2017/NexusWallpapersStubPrebuilt2017.apk
+  mkdir -p $MODPATH/system/app/NexusWallpapersStubPrebuilt2018
+  cp -af $APK_PATH_PX3_W $MODPATH/system/app/NexusWallpapersStubPrebuilt2018/NexusWallpapersStubPrebuilt2018.apk
+  mkdir -p $MODPATH/system/app/WallpapersBReel/lib/arm64
+  cp -af $LIB_PATH_PX1_D $MODPATH/system/app/WallpapersBReel/lib/arm64/libgdx.so
+  cp -af $LIB_PATH_PX1_B $MODPATH/system/app/WallpapersBReel/lib/arm64/libwallpapers-breel-jni.so
+  cp -af $APK_PATH_PX1_LW1 $MODPATH/system/app/WallpapersBReel/WallpapersBReel.apk
+  mkdir -p $MODPATH/system/app/WallpapersUsTwo
+  cp -af $APK_PATH_PX1_LW2 $MODPATH/system/app/WallpapersUsTwo/WallpapersUsTwo.apk
+  mkdir -p $MODPATH/system/app/WallpapersBReel2017/lib/arm64
+  cp -af $LIB_PATH_PX2_D $MODPATH/system/app/WallpapersBReel2017/lib/arm64/libgdx.so
+  cp -af $LIB_PATH_PX2_B $MODPATH/system/app/WallpapersBReel2017/lib/arm64/libwallpapers-breel-jni.so
+  cp -af $APK_PATH_PX2_LW $MODPATH/system/app/WallpapersBReel2017/WallpapersBReel2017.apk
+  mkdir -p $MODPATH/system/app/WallpapersBReel2018
+  cp -af $APK_PATH_PX3_LW $MODPATH/system/app/WallpapersBReel2018/WallpapersBReel2018.apk
   ;;
   *)
   ui_print "- Unsupported device."
